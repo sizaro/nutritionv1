@@ -1,29 +1,35 @@
 import { useState } from 'react';
 import { Button, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-export default function MealPlanScreen() {
-  const [age, setAge] = useState('');
+export default function FoodCheckerScreen() {
+  const [food, setFood] = useState('');
   const [condition, setCondition] = useState('None'); // Default
   const [result, setResult] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
   const conditions = ['None', 'Ulcers', 'Diabetes', 'Hypertension'];
 
-  const generateMealPlan = () => {
-    setResult(`Generated meal plan for age ${age}, condition: ${condition}`);
+  const checkFood = () => {
+    // TEMP simple logic
+    if (condition === 'Ulcers' && food.toLowerCase().includes('spicy')) {
+      setResult('❌ Not recommended for ulcers');
+    } else if (condition === 'Diabetes' && food.toLowerCase().includes('sugar')) {
+      setResult('❌ Not recommended for diabetes');
+    } else {
+      setResult('✔ Recommended');
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Meal Plan Input</Text>
+      <Text style={styles.title}>Food Checker</Text>
 
-      <Text style={styles.label}>Your Age:</Text>
+      <Text style={styles.label}>Food:</Text>
       <TextInput
         style={styles.input}
-        keyboardType="numeric"
-        value={age}
-        onChangeText={setAge}
-        placeholder="Enter your age"
+        value={food}
+        onChangeText={setFood}
+        placeholder="Enter food name"
       />
 
       <Text style={styles.label}>Health Condition:</Text>
@@ -54,7 +60,7 @@ export default function MealPlanScreen() {
         </View>
       </Modal>
 
-      <Button title="Generate Meal Plan" onPress={generateMealPlan} />
+      <Button title="Check Food" onPress={checkFood} />
 
       {result ? <Text style={styles.result}>{result}</Text> : null}
     </ScrollView>
